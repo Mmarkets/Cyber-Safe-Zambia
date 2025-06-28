@@ -1,0 +1,990 @@
+:root {
+       --green: #198A00;
+       --red: #DE2010;
+       --black: #000000;
+       --orange: #EF7D00;
+       --white: #FFFFFF;
+       --dark-bg: #12171A;
+       --dark-card: #2A3A35;
+       --midnight-bg: #0A0F12;
+       --circuit-opacity: 0.1;
+   }
+
+   html.dark-mode {
+    --green: #0A3D00;
+    --red: #7A3E00;
+    --black: #F5F6F5;
+    --white: #0A0A0A;
+    --orange: #7A3E00;
+   }
+
+   body {
+       background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/circuit_board.jpg');
+       background-size: cover;
+       background-attachment: fixed;
+       background-position: center;
+       background-color: var(--white);
+       color: var(--black);
+       margin: 0;
+       padding-left: 250px;
+       transition: padding-left 0.3s ease, background-color 0.3s, color 0.3s;
+       font-family: 'Roboto', sans-serif;
+       position: relative;
+       will-change: background-color, color;
+   }
+
+   h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
+   }
+
+   html.body.dark-mode body {
+       background-color: var(--dark-bg);
+       color: var(--white);
+   }
+
+   body.dark-mode.midnight {
+       background-color: var(--midnight-bg);
+   }
+
+   body.sidebar-hidden {
+       padding-left: 0;
+   }
+
+   .container {
+       background-color: rgba(255, 255, 255, 0.95);
+       border-radius: 12px;
+       padding: 20px;
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+       animation: fadeIn 0.5s ease-in;
+       border: 2px solid transparent;
+       background-image: url('/static/images/chitenge_pattern.png');
+       background-size: 10%;
+   }
+
+   html.dark-mode .container {
+       background-color: rgba(42, 58, 53, 0.8);
+       backdrop-filter: blur(10px);
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+   }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--green), #0A3D00);
+    color: var(--white);
+    padding-top: 15px;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+    border-right: 2px solid transparent;
+    background-image: url('/static/images/chitenge_pattern.png');
+    background-size: 5%;
+    display: flex;
+    flex-direction: column;
+   }
+
+   .sidebar.hidden {
+       transform: translateX(-280px);
+   }
+
+   .sidebar.active {
+       transform: translateX(0);
+   }
+
+   .sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    font-size: 1.5rem;
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-family: 'Orbitron', sans-serif;
+   }
+
+   .sidebar-brand img {
+       width: 24px;
+       height: 24px;
+       object-fit: contain;
+       filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+   }
+
+   .sidebar-nav {
+       list-style: none;
+       padding: 0 15px;
+       margin: 0;
+       display: flex;
+       flex-direction: column;
+       gap: 8px;
+       flex-grow: 1;
+   }
+
+   .sidebar-nav li {
+       width: 100%;
+   }
+
+   .sidebar-nav a, .sidebar-nav .dark-mode-toggle, .sidebar-nav select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    color: var(--white);
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    border-radius: 8px;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+   }
+
+   .sidebar-nav a::after {
+       content: '';
+       position: absolute;
+       bottom: 0;
+       left: 0;
+       width: 0;
+       height: 2px;
+       background: var(--orange);
+       transition: width 0.3s ease;
+   }
+
+   .sidebar-nav a:hover::after {
+       width: 100%;
+   }
+
+   .sidebar-nav a:hover, .sidebar-nav .dark-mode-toggle:hover{
+       background-color: var(--orange);
+       transform: translateX(5px);
+       box-shadow: 0 0 10px var(--orange);
+   }
+
+   .sidebar-nav a.active {
+       background-color: var(--red);
+       font-weight: bold;
+       box-shadow: 0 0 10px var(--red);
+   }
+
+   .sidebar-nav a i, .sidebar-nav a img, .sidebar-nav .dark-mode-toggle i {
+       object-fit: contain;
+       width: 24px;
+       height: 24px;
+       text-align: center;
+       animation: pulse 2s infinite;
+   }
+
+   .sidebar-nav select {
+    background-color: var(--dark-card);
+    border-color: var(--green);
+    color: var(--white);
+    width: 100%;
+    max-width: 200px;
+    border-radius: 8px;
+    padding: 8px;
+   }
+
+   .notification-bell {
+    position: relative;
+   }
+
+   .notification-bell .badge {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    background-color: var(--red);
+    color: var(--white);
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+   }
+
+   .sidebar-profile {
+       padding: 15px;
+       border-top: 1px solid var(--green);
+       
+       padding: 15px;
+       text-align: center;
+       color: var(--white);
+       background: rgba(0, 0, 0, 0.3);
+   }
+
+   .sidebar-profile .avatar {
+       width: 40px;
+       height: 40px;
+       border-radius: 50%;
+       background: var(--green);
+       color: var(--white);
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin: 0 auto 10px;
+       font-size: 1.2rem;
+       border: 2px solid var(--orange);
+   }
+
+   .hamburger {
+       display: none;
+       position: fixed;
+       top: 15px;
+       left: 15px;
+       font-size: 1.5rem;
+       color: var(--green);
+       background: none;
+       border: none;
+       z-index: 1100;
+       cursor: pointer;
+       padding: 8px;
+       border-radius: 4px;
+   }
+
+   .hamburger:hover {
+    background-color: var(--orange);
+    color: var(--white);
+   }
+
+   @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+   }
+
+   @media (max-width: 768px) {
+    body {
+        padding-left: 0;
+    }
+
+    .sidebar {
+        transform: translateX(-280px);
+        width: 280px;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .main-content {
+        padding: 60px 15px 15px;
+    }
+   }
+
+   .main-content {
+       padding: 20px;
+       min-height: calc(100vh - 100px);
+       overflow-x: auto;
+   }
+
+   .hero-section {
+       position: relative;
+       text-align: center;
+       padding: 60px 20px;
+       background: linear-gradient(135deg, rgba(25, 138, 0, 0.8), rgba(222, 32, 16, 0.8));
+       border-radius: 12px;
+       margin-bottom: 30px;
+       animation: fadeIn 1s ease-in;
+       overflow: hidden;
+   }
+
+   html.dark-mode .sidebar-nav select {
+       background-color: var(--dark-bg);
+       border-color: var(--orange);
+   }
+
+
+   .hero-section::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background: url('/static/images/eagle.svg') center/50% no-repeat;
+       opacity: 0.1;
+       animation: spin 20s linear infinite;
+   }
+
+   .hero-icon {
+       width: 100px;
+       height: 100px;
+       animation: rotateIcons 20s infinite;
+   }
+
+   .hero-tagline {
+       color: var(--white);
+       font-size: 2rem;
+       font-weight: bold;
+       font-family: 'Orbitron', sans-serif;
+       background: linear-gradient(90deg, var(--green), var(--orange));
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+       animation: typeWriter 10s steps(30) infinite;
+       overflow: hidden;
+       white-space: nowrap;
+       display: inline-block;
+   }
+
+   .page-header {
+       position: relative;
+       display: flex;
+       align-items: center;
+       margin-bottom: 20px;
+       padding-bottom: 10px;
+       font-family: 'Orbitron', sans-serif;
+       color: var(--black);
+       text-transform: uppercase;
+       letter-spacing: 2px;
+   }
+
+   body.dark-mode .page-header {
+       color: var(--white);
+       text-shadow: 0 0 10px var(--orange);
+   }
+
+   .page-header::after {
+       content: '';
+       position: absolute;
+       bottom: 0;
+       left: 0;
+       width: 100%;
+       height: 4px;
+       background: linear-gradient(90deg, var(--green), var(--red), var(--orange));
+       animation: slideIn 1s ease-in;
+   }
+
+   .page-header img {
+       width: 40px;
+       margin-right: 10px;
+   }
+
+   .page-header .slogan {
+       font-size: 0.9rem;
+       color: var(--green);
+       margin-left: 10px;
+   }
+
+   body.dark-mode .page-header .slogan {
+       color: var(--orange);
+   }
+
+   .threat-indicator {
+    background-color: var(--dark-card);
+    padding: 1.5rem; /* Responsive padding */
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 2px solid var(--green); /* Thicker border for emphasis */
+    color: var(--white); /* Ensure text visibility */
+    transition: transform 0.3s ease; /* Subtle hover effect */
+   }
+
+   .threat-indicator:hover {
+    transform: translateY(-5px);
+   }
+
+   .threat-indicator h3, .threat-indicator p {
+    color: var(--white);
+    font-family: 'Orbitron', sans-serif;
+    margin: 0;
+   }
+
+   .threat-indicator p {
+    font-size: 1.25rem;
+    font-weight: bold;
+   }
+
+   @media (max-width: 576px) {
+    .threat-indicator {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .threat-indicator p {
+        font-size: 1rem;
+    }
+   }
+
+   .card.auth-card {
+    border: 2px solid var(--green);
+    background-image: url('/static/images/chitenge_pattern.png');
+    background-size: 10%;
+    backdrop-filter: blur(5px);
+    transition: transform 0.2s;
+   }
+
+   .card.auth-card:hover {
+    transform: scale(1.02);
+   }
+
+   html.dark-mode .card.auth-card {
+    border: 2px solid var(--orange);
+    background-color: rgba(42, 58, 53, 0.8);
+   }
+
+   .form-label {
+    color: var(--black);
+    font-family: 'Orbitron', sans-serif;
+   }
+
+    html.dark-mode .form-label {
+    color: var(--white);
+   }  
+
+   .btn-primary {
+    background: linear-gradient(90deg, var(--green), #0A3D00);
+    border: none;
+    font-family: 'Orbitron', sans-serif;
+   }
+
+    html.dark-mode .btn-primary {
+    background: linear-gradient(90deg, var(--orange), #7A3E00);
+   }
+
+   .threat-indicator h5 {
+       color: var(--white);
+       margin-bottom: 10px;
+       font-family: 'Orbitron', sans-serif;
+   }
+
+   .threat-low { color: var(--green); }
+   .threat-medium { color: var(--orange); }
+   .threat-high { color: var(--red); }
+
+   .card {
+       border: none;
+       border-radius: 12px;
+       transition: transform 0.3s, box-shadow 0.3s;
+       background-color: var(--white);
+       position: relative;
+       overflow: hidden;
+       border: 2px solid var(--green);
+   }
+
+   body.dark-mode .card {
+       background-color: rgba(42, 58, 53, 0.8);
+       backdrop-filter: blur(5px);
+       color: var(--white);
+       border: 2px solid var(--orange);
+   }
+
+   .card:hover {
+       transform: perspective(1000px) rotateX(3deg) rotateY(3deg);
+       box-shadow: 0 8px 16px rgba(239, 125, 0, 0.5);
+   }
+
+   .card::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+       transition: transform 0.5s;
+       transform: translateX(-100%);
+   }
+
+   .card:hover::before {
+       transform: translateX(100%);
+   }
+
+   .btn-primary {
+       background-color: var(--green);
+       background: linear-gradient(90deg, var(--green), #0A3D00);
+       border-color: var(--green);
+       border: none;
+       transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+       position: relative;
+       overflow: hidden;
+       font-family: 'Orbitron', sans-serif;
+   }
+
+   .btn-primary:hover {
+       background-color: var(--orange);
+       border-color: var(--orange);
+       transform: scale(1.05);
+       box-shadow: 0 0 15px var(--orange);
+   }
+
+   html.dark-mode .btn-primary {
+    background: linear-gradient(90deg, var(--orange), #7A3E00);
+   }
+
+   .btn-primary::after {
+       content: '';
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       width: 0;
+       height: 0;
+       background: rgba(255, 255, 255, 0.3);
+       border-radius: 50%;
+       transform: translate(-50%, -50%);
+       transition: width 0.5s, height 0.5s;
+   }
+
+   .btn-primary:hover::after {
+       width: 200px;
+       height: 200px;
+   }
+
+   .alert-cyber {
+       background: linear-gradient(90deg, var(--dark-bg), var(--dark-card));
+       color: var(--white);
+       border: none;
+       border-left: 5px solid var(--green);
+       border-radius: 8px;
+       padding: 15px 40px 15px 15px;
+       position: relative;
+       animation: slideIn 0.5s ease-out;
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+   }
+
+   .alert-cyber::before {
+       content: '⚠️';
+       position: absolute;
+       left: 10px;
+       top: 50%;
+       transform: translateY(-50%);
+       font-size: 1.2rem;
+   }
+
+   html.dark-mode .alert-cyber {
+    border-left: 5px solid var(--orange);
+   }
+
+   .progress-circle {
+       position: relative;
+       width: 100px;
+       height: 100px;
+       margin: 20px auto;
+   }
+
+   .progress-circle svg {
+       transform: rotate(-90deg);
+   }
+
+   .progress-circle circle {
+       fill: none;
+       stroke-width: 10;
+       stroke-linecap: round;
+       cx: 50;
+       cy: 50;
+       r: 45;
+   }
+
+   .progress-circle .bg {
+       stroke: #E0E0E0;
+   }
+
+   .progress-circle .fg {
+       stroke: var(--green);
+       stroke-dasharray: 283;
+       stroke-dashoffset: 283;
+       transition: stroke-dashoffset 1s ease;
+   }
+
+   .progress-circle.phishing .fg {
+       stroke: var(--red);
+   }
+
+   .progress-circle .text {
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+       font-size: 1.2rem;
+       font-weight: bold;
+       color: var(--black);
+       font-family: 'Orbitron', sans-serif;
+   }
+
+   body.dark-mode .progress-circle .text {
+       color: var(--white);
+       text-shadow: 0 0 5px var(--orange);
+   }
+
+   .dark-mode-toggle {
+       display: flex;
+       align-items: center;
+       padding: 15px;
+       color: var(--white);
+       cursor: pointer;
+       transition: background-color 0.3s;
+   }
+
+   .dark-mode-toggle:hover {
+       background-color: var(--orange);
+   }
+
+   .dark-mode-toggle i {
+       margin-right: 10px;
+   }
+
+   .notification-bell {
+       position: relative;
+       display: flex;
+       align-items: center;
+       padding: 15px;
+       color: var(--white);
+       text-decoration: none;
+   }
+
+   .notification-bell .badge {
+       position: absolute;
+       top: -5px;
+       right: -5px;
+       background-color: var(--red);
+       color: var(--white);
+       border-radius: 50%;
+       padding: 5px 8px;
+       font-size: 0.8rem;
+   }
+
+   .table th {
+    font-family: 'Orbitron', sans-serif;
+   }
+
+   .badge {
+    font-family: 'Roboto', sans-serif;
+   }
+
+   footer {
+       background: linear-gradient(135deg, var(--green), #0A3D00);
+       color: var(--white);
+       box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+       padding: 20px 0;
+       position: relative;
+       z-index: 100;
+       border-top: 2px solid transparent;
+       background-image: url('/static/images/chitenge_pattern.png');
+       width: 100%;
+       z-index: 1000;
+       background-size: 5%;
+   }
+
+   body:not(.sidebar-hidden) footer {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+   }
+
+   .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+   }
+
+   .footer-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+   }
+
+   .footer-flag {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    vertical-align: middle;
+   }
+
+   .footer-slogan {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    margin: 0;
+    background: linear-gradient(90deg, var(--green), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+   }  
+
+.footer-credit {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+   .tips-ticker {
+       background: rgba(0, 0, 0, 0.5);
+       padding: 10px;
+       margin-top: 10px;
+       overflow: hidden;
+       white-space: nowrap;
+   }
+
+   .tips-ticker span {
+       display: inline-block;
+       animation: ticker 20s linear infinite;
+   }
+
+   .social-icons a {
+       color: var(--white);
+       margin: 0 10px;
+       font-size: 1.5rem;
+       transition: transform 0.3s, color 0.3s;
+   }
+
+   .social-icons a:hover {
+       transform: rotate(360deg);
+       color: var(--orange);
+   }
+
+   .chart-container {
+       position: relative;
+       margin: auto;
+       width: 100%;
+       height: 200px;
+       background-color: var(--white);
+       border-radius: 8px;
+       padding: 10px;
+   }
+
+   body.dark-mode .chart-container {
+       background-color: var(--dark-card);
+       border: 1px solid var(--orange);
+   }
+
+   .footer-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+.footer-links a {
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--orange);
+}
+
+@media (max-width: 768px) {
+    footer {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .footer-content {
+        padding: 0 10px;
+    }
+
+    .social-icons a {
+        font-size: 1rem;
+    }
+
+    .footer-links {
+        gap: 15px;
+        font-size: 0.8rem;
+    }
+   }
+
+   .breadcrumb {
+       background-color: transparent;
+       padding: 10px 0;
+   }
+
+   .breadcrumb-item a {
+       color: var(--green);
+       text-decoration: none;
+   }
+
+   .breadcrumb-item a:hover {
+       color: var(--orange);
+   }
+
+   .breadcrumb-item.active {
+       color: var(--white);
+   }
+
+   body.dark-mode .breadcrumb-item.active {
+       color: var(--white);
+   }
+
+   .loading-overlay {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background: rgba(0, 0, 0, 0.7);
+       display: none;
+       justify-content: center;
+       align-items: center;
+       z-index: 2000;
+   }
+
+   .loading-spinner {
+       width: 50px;
+       height: 50px;
+       border: 5px solid var(--green);
+       border-top: 5px solid var(--orange);
+       border-radius: 50%;
+       animation: spin 1s linear infinite;
+   }
+
+   .clock {
+       color: var(--white);
+       text-align: center;
+       padding: 10px;
+       font-size: 0.9rem;
+       font-family: 'Orbitron', sans-serif;
+   }
+
+   #particles-js {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       z-index: -1;
+       opacity: 0.2;
+   }
+
+   @keyframes fadeIn {
+       from { opacity: 0; transform: translateY(20px); }
+       to { opacity: 1; transform: translateY(0); }
+   }
+
+   @keyframes slideIn {
+       from { transform: translateX(-100%); }
+       to { transform: translateX(0); }
+   }
+
+   @keyframes pulse {
+       0%, 100% { transform: scale(1); }
+       50% { transform: scale(1.2); }
+   }
+
+   @keyframes rotateIcons {
+       0% { content: url('/static/images/lock_icon.png'); }
+       25% { content: url('/static/images/shield_icon.png'); }
+       50% { content: url('/static/images/globe_icon.png'); }
+       75% { content: url('/static/icons/phishing.svg'); }
+       100% { content: url('/static/images/lock_icon.png'); }
+   }
+
+   @keyframes typeWriter {
+       0%, 100% { width: 0; }
+       50% { width: 100%; }
+   }
+
+   @keyframes spin {
+       to { transform: rotate(360deg); }
+   }
+
+   @keyframes ticker {
+       0% { transform: translateX(100%); }
+       100% { transform: translateX(-100%); }
+   }
+
+   [data-tooltip] {
+       position: relative;
+       cursor: pointer;
+   }
+
+   [data-tooltip]:hover::after {
+       content: attr(data-tooltip);
+       position: absolute;
+       bottom: 100%;
+       left: 50%;
+       transform: translateX(-50%);
+       background-color: var(--black);
+       color: var(--white);
+       padding: 5px 10px;
+       border-radius: 4px;
+       font-size: 0.9rem;
+       white-space: nowrap;
+       z-index: 1000;
+       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+   }
+
+   @media (max-width: 768px) {
+       body {
+           padding-left: 0;
+       }
+
+       .sidebar {
+           transform: translateX(-250px);
+       }
+
+       .sidebar.active {
+           transform: translateX(0);
+       }
+
+       .hamburger {
+           display: block;
+       }
+
+       .main-content {
+           padding: 60px 20px 20px;
+       }
+
+       .hero-tagline {
+           font-size: 1.5rem;
+       }
+
+       .chart-container {
+           height: 150px;
+       }
+
+       .page-header {
+           font-size: 1.5rem;
+       }
+   }
+
+   .form-control {
+       background-color: var(--white);
+       color: var(--black);
+       border-color: var(--green);
+       transition: box-shadow 0.3s;
+   }
+
+   .form-control:focus {
+       box-shadow: 0 0 10px var(--green);
+   }
+
+   body.dark-mode .form-control {
+       background-color: var(--dark-card);
+       color: var(--white);
+       border-color: var(--orange);
+   }
+
+   body.dark-mode .form-control:focus {
+       box-shadow: 0 0 15px var(--orange);
+   }
+
+   .form-select {
+       background-color: var(--white);
+       color: var(--black);
+       border-color: var(--green);
+   }
+
+   body.dark-mode .form-select {
+       background-color: var(--dark-card);
+       color: var(--white);
+       border-color: var(--orange);
+   }
+
+   .spinner {
+       display: inline-block;
+       width: 1rem;
+       height: 1rem;
+       border: 2px solid var(--white);
+       border-top: 2px solid var(--green);
+       border-radius: 50%;
+       animation: spin 1s linear infinite;
+       margin-left: 5px;
+   }

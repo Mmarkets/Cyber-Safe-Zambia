@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}{{ gettext('Cybersecurity Quiz') }} - {{ gettext('Cyber Safe Zambia') }}{% endblock %}
+{% block content %}
+<div class="row justify-content-center animate__animated animate__fadeInUp">
+    <div class="col-md-8">
+        <div class="card bg-dark text-light border-primary shadow-lg">
+            <div class="card-header bg-primary text-center">
+                <h3>{{ gettext('Cybersecurity Quiz') }}</h3>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">{{ gettext('Test your knowledge with these questions!') }}</p>
+                <button class="btn btn-primary" onclick="startQuiz()">{{ gettext('Start Quiz') }}</button>
+                <div id="quiz-result" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const questions = [
+        {
+            question: "{{ gettext('What is phishing?') }}",
+            options: [
+                "{{ gettext('A type of fish') }}",
+                "{{ gettext('A cyberattack to steal information') }}",
+                "{{ gettext('A software update') }}"
+            ],
+            answer: 1
+        },
+        {
+            question: "{{ gettext('What makes a password strong?') }}",
+            options: [
+                "{{ gettext('Short and simple') }}",
+                "{{ gettext('Long, with letters, numbers, and symbols') }}",
+                "{{ gettext('Your name') }}"
+            ],
+            answer: 1
+        }
+    ];
+    let score = 0;
+    let currentQuestion = 0;
+
+    function startQuiz() {
+        score = 0;
+        currentQuestion = 0;
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if (currentQuestion < questions.length) {
+            let q = questions[currentQuestion];
+            let options = q.options.map((opt, i) => `<button class="btn btn-outline-primary m-1" onclick="checkAnswer(${i})">${opt}</button>`).join('');
+            document.getElementById('quiz-result').innerHTML = `
+                <div class="alert alert-info">
+                    <h5>${q.question}</h5>
+                    ${options}
+                </div>
+               `;
+        } else {
+            document.getElementById('quiz-result').innerHTML = `
+                <div class="alert alert-success">
+                    {{ gettext('Quiz complete! Your score:') }} ${score}/${questions.length}
+                </div>
+            `;
+        }
+    }
+
+    function checkAnswer(index) {
+        if (index === questions[currentQuestion].answer) {
+            score++;
+        }
+        currentQuestion++;
+        showQuestion();
+    }
+</script>
+{% endblock %}
+ 

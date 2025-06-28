@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+   {% block title %}{{ gettext('Login') }}{% endblock %}
+   {% block content %}
+   <div class="container mt-5">
+       <div class="row justify-content-center">
+           <div class="col-md-6">
+               <div class="card auth-card">
+                   <div class="card-body">
+                       <h3 class="text-center orbitron mb-4">{{ gettext('Login to Cyber Safe Zambia') }}</h3>
+                       {% with messages = get_flashed_messages(with_categories=true) %}
+                           {% if messages %}
+                               {% for category, message in messages %}
+                                   <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-cyber">
+                                       {{ message }}
+                                   </div>
+                               {% endfor %}
+                           {% endif %}
+                       {% endwith %}
+                       <form method="POST">
+                           {{ form.csrf_token }}
+                           <div class="mb-3">
+                               {{ form.email.label(class="form-label") }}
+                               {{ form.email(class="form-control", placeholder=gettext("Enter email")) }}
+                               {% if form.email.errors %}
+                                   {% for error in form.email.errors %}
+                                       <small class="text-danger">{{ error }}</small>
+                                   {% endfor %}
+                               {% endif %}
+                           </div>
+                           <div class="mb-3">
+                               {{ form.password.label(class="form-label") }}
+                               {{ form.password(class="form-control", placeholder=gettext("Enter password")) }}
+                               {% if form.password.errors %}
+                                   {% for error in form.password.errors %}
+                                       <small class="text-danger">{{ error }}</small>
+                                   {% endfor %}
+                               {% endif %}
+                           </div>
+                           <div class="d-grid">
+                               {{ form.submit(class="btn btn-primary") }}
+                           </div>
+                       </form>
+                       <p class="text-center mt-3">
+                           {{ gettext('No account?') }} <a href="{{ url_for('auth.register') }}">{{ gettext('Register') }}</a>
+                       </p>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   {% endblock %}

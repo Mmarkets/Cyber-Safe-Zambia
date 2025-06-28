@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+   <html lang="{{ get_locale() }}">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdn.datatables.net; style-src 'self' https://cdn.jsdelivr.net https://cdn.datatables.net; img-src 'self' data:;">
+       <meta name="csrf-token" content="{{ csrf_token() }}">
+       <title>{% block title %}{{ gettext('Cyber Safe Zambia') }}{% endblock %}</title>
+       <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+       <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+       <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+       <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+       <script>
+           // Prevent dark mode flicker
+           const savedTheme = localStorage.getItem('theme') || '{{ session.get('theme', 'light') }}';
+           if (savedTheme === 'dark') {
+               document.documentElement.classList.add('dark-mode');
+           }
+       </script>
+       {% block head %}{% endblock %}
+   </head>
+   <body class="{{ 'dark-mode' if session.get('theme') == 'dark' else '' }}">
+       <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+       <div class="loading-overlay" id="loadingSpinner">
+           <div class="loading-spinner"></div>
+       </div>
+       <button class="hamburger" id="sidebar-toggle" aria-label="{{ gettext('Toggle Sidebar') }}"><i class="fas fa-bars"></i></button>
+       <nav class="sidebar animate-slide-in" id="sidebar-wrapper" role="navigation" aria-label="{{ gettext('Main Navigation') }}">
+           <a href="{{ url_for('home.index') }}" class="sidebar-brand">
+               <img src="{{ url_for('static', filename='images/logo.png') }}" alt="{{ gettext('Cyber Safe Zambia Logo') }}" loading="lazy">
+               {{ gettext('Cyber Safe Zambia') }}
+           </a>
+           <ul class="sidebar-nav">
+               <li><a href="{{ url_for('home.index') }}" class="{{ 'active' if request.path == url_for('home.index') }}" data-tooltip="{{ gettext('Home') }}"><i class="fas fa-home"></i>{{ gettext('Home') }}</a></li>
+               <li><a href="{{ url_for('phishing.phishing') }}" class="{{ 'active' if request.path == url_for('phishing.phishing') }}" data-tooltip="{{ gettext('Phishing Detector') }}"><img src="{{ url_for('static', filename='icons/phishing.svg') }}" alt="{{ gettext('Phishing Icon') }}">{{ gettext('Phishing Detector') }}</a></li>
+               <li><a href="{{ url_for('password_strength.password_strength') }}" class="{{ 'active' if request.path == url_for('password_strength.password_strength') }}" data-tooltip="{{ gettext('Password Strength Checker') }}"><img src="{{ url_for('static', filename='icons/password.svg') }}" alt="{{ gettext('Password Icon') }}">{{ gettext('Password Strength Checker') }}</a></li>
+               <li><a href="{{ url_for('password_generator.password_generator') }}" class="{{ 'active' if request.path == url_for('password_generator.password_generator') }}" data-tooltip="{{ gettext('Secure Password Generator') }}"><i class="fas fa-key"></i>{{ gettext('Secure Password Generator') }}</a></li>
+               <li><a href="{{ url_for('breach_checker.breach_checker') }}" class="{{ 'active' if request.path == url_for('breach_checker.breach_checker') }}" data-tooltip="{{ gettext('Data Breach Checker') }}"><i class="fas fa-database"></i>{{ gettext('Data Breach Checker') }}</a></li>
+               <li><a href="{{ url_for('malware_scanner.malware_scanner') }}" class="{{ 'active' if request.path == url_for('malware_scanner.malware_scanner') }}" data-tooltip="{{ gettext('Malware Scanner') }}"><img src="{{ url_for('static', filename='icons/malware.svg') }}" alt="{{ gettext('Malware Icon') }}">{{ gettext('Malware Scanner') }}</a></li>
+               <li><a href="{{ url_for('quiz.quiz') }}" class="{{ 'active' if request.path == url_for('quiz.quiz') }}" data-tooltip="{{ gettext('Quiz') }}"><i class="fas fa-question-circle"></i>{{ gettext('Quiz') }}</a></li>
+               <li><a href="{{ url_for('feedback.feedback') }}" class="{{ 'active' if request.path == url_for('feedback.feedback') }}" data-tooltip="{{ gettext('Feedback') }}"><i class="fas fa-comment"></i>{{ gettext('Feedback') }}</a></li>
+               <li><a href="{{ url_for('privacy.privacy') }}" class="{{ 'active' if request.path == url_for('privacy.privacy') }}" data-tooltip="{{ gettext('Privacy Policy') }}"><i class="fas fa-shield-alt"></i>{{ gettext('Privacy Policy') }}</a></li>
+               {% if current_user.is_authenticated %}
+               <li><a href="{{ url_for('dashboard.dashboard') }}" class="{{ 'active' if request.path == url_for('dashboard.dashboard') }}" data-tooltip="{{ gettext('Dashboard') }}"><i class="fas fa-tachometer-alt"></i>{{ gettext('Dashboard') }}</a></li>
+               <li><a href="{{ url_for('admin.stats') }}" class="{{ 'active' if request.path == url_for('admin.stats') }}" data-tooltip="{{ gettext('Admin Stats') }}"><i class="fas fa-chart-bar"></i>{{ gettext('Admin Stats') }}</a></li>
+               <li><a href="{{ url_for('auth.logout') }}" class="{{ 'active' if request.path == url_for('auth.logout') }}" data-tooltip="{{ gettext('Logout') }}"><i class="fas fa-sign-out-alt"></i>{{ gettext('Logout') }}</a></li>
+               {% else %}
+               <li><a href="{{ url_for('auth.login') }}" class="{{ 'active' if request.path == url_for('auth.login') }}" data-tooltip="{{ gettext('Login') }}"><i class="fas fa-sign-in-alt"></i>{{ gettext('Login') }}</a></li>
+               <li><a href="{{ url_for('auth.register') }}" class="{{ 'active' if request.path == url_for('auth.register') }}" data-tooltip="{{ gettext('Register') }}"><i class="fas fa-user-plus"></i>{{ gettext('Register') }}</a></li>
+               {% endif %}
+               <li>
+                   <select id="language-select" class="form-select" aria-label="{{ gettext('Select Language') }}">
+                       <option value="en" {% if get_locale() == 'en' %}selected{% endif %}>{{ gettext('English') }}</option>
+                       <option value="bem" {% if get_locale() == 'bem' %}selected{% endif %}>{{ gettext('Bemba') }}</option>
+                       <option value="nya" {% if get_locale() == 'nya' %}selected{% endif %}>{{ gettext('Nyanja') }}</option>
+                   </select>
+               </li>
+               <li class="dark-mode-toggle" id="theme-toggle" role="button" aria-label="{{ gettext('Toggle Dark Mode') }}"><i class="fas fa-moon"></i>{{ gettext('Toggle Dark Mode') }}</li>
+               <li><a href="{{ url_for('feedback.feedback') }}" class="notification-bell" data-tooltip="{{ gettext('Notifications') }}"><i class="fas fa-bell"></i>{{ gettext('Notifications') }} <span class="badge" id="notification-count">0</span></a></li>
+           </ul>
+           <div class="sidebar-profile">
+               <p class="text-center">{{ gettext('Welcome,') }} {{ current_user.username if current_user.is_authenticated else gettext('Guest') }}</p>
+           </div>
+       </nav>
+       <div class="main-content">
+           <div class="container">
+               {% with messages = get_flashed_messages(with_categories=true) %}
+                   {% if messages %}
+                       {% for category, message in messages %}
+                           <div class="alert-cyber alert alert-{{ 'success' if category == 'success' else 'danger' }} mt-3">
+                               {{ message }}
+                               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ gettext('Close') }}"></button>
+                           </div>
+                       {% endfor %}
+                   {% endif %}
+               {% endwith %}
+               {% block content %}{% endblock %}
+           </div>
+       </div>
+       <footer>
+           <p>{{ gettext('Developed by Moses Mukuka for Cyber Safe Zambia | 2025') }}</p>
+           <img src="{{ url_for('static', filename='images/zambia_flag.png') }}" width="20" alt="{{ gettext('Zambia Flag') }}" loading="lazy">
+           <div class="social-icons">
+               <a href="https://x.com" target="_blank" data-tooltip="{{ gettext('Follow us on X') }}"><i class="fab fa-x-twitter"></i></a>
+               <a href="https://facebook.com" target="_blank" data-tooltip="{{ gettext('Like us on Facebook') }}"><i class="fab fa-facebook"></i></a>
+               <a href="{{ url_for('feedback.feedback') }}" data-tooltip="{{ gettext('Report a Threat') }}"><i class="fas fa-exclamation-circle"></i></a>
+           </div>
+       </footer>
+       <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+       {% block scripts %}{% endblock %}
+   </body>
+   </html>

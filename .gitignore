@@ -1,0 +1,28 @@
+.env
+Python
+
+pycache/ *.pyc *.pyo *.pyd .Python *.egg-info/ dist/ build/ *.egg
+
+Virtual environment
+
+venv/ env/
+
+Database
+
+app.db *.sqlite *.db *.db.bak
+
+Logs
+
+app.log error.log
+
+Secrets
+
+.env *.key *.pem
+
+IDE files
+
+.vscode/ .idea/
+
+OS files
+
+.DS_Store Thumbs.db

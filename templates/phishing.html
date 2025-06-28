@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+   {% block title %}{{ gettext('Phishing Detector') }} - {{ gettext('Cyber Safe Zambia') }}{% endblock %}
+   {% block content %}
+   <div class="container">
+       <nav aria-label="breadcrumb">
+           <ol class="breadcrumb">
+               <li class="breadcrumb-item"><a href="{{ url_for('home.index') }}">{{ gettext('Home') }}</a></li>
+               <li class="breadcrumb-item active" aria-current="page">{{ gettext('Phishing Detector') }}</li>
+           </ol>
+       </nav>
+       <div class="card">
+           <div class="card-body">
+               <img src="{{ url_for('static', filename='icons/phishing.svg') }}" alt="{{ gettext('Phishing Icon') }}" class="mb-3" style="width: 60px;">
+               <h3 class="card-title">{{ gettext('Phishing Detector') }}</h3>
+               <p class="card-text">{{ gettext('Enter a URL to check if it is a phishing or malicious site.') }}</p>
+               <form method="POST" class="needs-validation" novalidate>
+                   {{ form.hidden_tag() }}
+                   <div class="mb-3">
+                       {{ form.url.label(class="form-label") }}
+                       {{ form.url(class="form-control", placeholder="https://example.com", required=True) }}
+                       <div class="invalid-feedback">{{ gettext('Please enter a valid URL.') }}</div>
+                   </div>
+                   {{ form.submit(class="btn btn-primary w-100") }}
+               </form>
+               {% if result %}
+               <div class="mt-4">
+                   <div class="alert-cyber alert alert-{{ result.category }}">
+                       <h5>{{ result.status }}</h5>
+                       <div class="progress-circle {{ 'phishing' if result.category == 'danger' else '' }}" data-value="{{ result.confidence|default(80) }}">
+                           <svg>
+                               <circle class="bg" cx="50" cy="50" r="45"></circle>
+                               <circle class="fg" cx="50" cy="50" r="45"></circle>
+                           </svg>
+                           <span class="text">{{ result.confidence|default(80) }}%</span>
+                       </div>
+                   </div>
+               </div>
+               {% endif %}
+           </div>
+       </div>
+   </div>
+   {% endblock %}

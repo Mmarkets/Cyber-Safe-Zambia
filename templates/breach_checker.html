@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Data Breach Checker - Cyber Safe Zambia{% endblock %}
+{% block content %}
+<h1>Data Breach Checker</h1>
+<p>Enter an email address to check if it has been involved in a data breach.</p>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% if result %}
+<div class="mt-3">
+    <h5>Result: {{ result.status }}</h5>
+    {% if result.status == 'Email Found in Breaches' %}
+    <p>Change your password immediately and enable two-factor authentication.</p>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
+  

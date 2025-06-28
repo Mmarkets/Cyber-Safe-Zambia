@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block title %}{{ gettext('Dashboard') }}{% endblock %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">{{ gettext('Cyber Safe Zambia Dashboard') }}</h1>
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert-cyber alert alert-{{ 'success' if category == 'success' else 'danger' }} mb-3">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ gettext('Close') }}"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <!-- KPI Cards -->
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-shield-alt"></i> {{ gettext('Active Threats') }}</h5>
+                    <p class="display-4 text-{{ 'danger' if active_threats > 0 else 'success' }}">{{ active_threats }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-check-circle"></i> {{ gettext('Compliance Status') }}</h5>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ compliance_percent }}%" aria-valuenow="{{ compliance_percent }}" aria-valuemin="0" aria-valuemax="100">{{ compliance_percent }}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card auth-card">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-users"></i> {{ gettext('Active Users') }}</h5>
+                    <p class="display-4">{{ active_users }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Charts -->
+    <div class="row g-4 mt-4">
+        <div class="col-md-6">
+            <div class="card auth-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ gettext('Threat Trends') }}</h5>
+                    <canvas id="threatTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card auth-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ gettext('Threat Severity') }}</h5>
+                    <canvas id="threatSeverityChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Threat Table -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card auth-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ gettext('Recent Threats') }}</h5>
+                    <table id="threatTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>{{ gettext('ID') }}</th>
+                                <th>{{ gettext('Type') }}</th>
+                                <th>{{ gettext('Severity') }}</th>
+                                <th>{{ gettext('Timestamp') }}</th>
+                                <th>{{ gettext('IP Address') }}</th>
+                                <th>{{ gettext('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by DataTables -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Report Generation Modal -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportModalLabel">{{ gettext('Generate Report') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ gettext('Close') }}"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reportForm">
+                        <div class="mb-3">
+                            <label for="reportType" class="form-label">{{ gettext('Report Type') }}</label>
+                            <select class="form-select" id="reportType" name="report_type">
+                                <option value="threat_summary">{{ gettext('Threat Summary') }}</option>
+                                <option value="compliance">{{ gettext('Compliance Report') }}</option>
+                                <option value="user_activity">{{ gettext('User Activity') }}</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dateRange" class="form-label">{{ gettext('Date Range') }}</label>
+                            <input type="text" class="form-control" id="dateRange" name="date_range" placeholder="{{ gettext('Select date range') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="format" class="form-label">{{ gettext('Format') }}</label>
+                            <select class="form-select" id="format" name="format">
+                                <option value="pdf">PDF</option>
+                                <option value="csv">CSV</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="previewReport">{{ gettext('Preview') }}</button>
+                        <button type="button" class="btn btn-primary" id="downloadReport">{{ gettext('Download') }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

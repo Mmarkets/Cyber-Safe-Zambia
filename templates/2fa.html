@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ gettext('2FA Verification') }} - {{ gettext('Cyber Safe Zambia') }}{% endblock %}
+{% block content %}
+<h1>{{ gettext('2FA Verification') }}</h1>
+<p>Enter the OTP sent to your email.</p>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        {{ form.code.label(class="form-label") }}
+        {{ form.code(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}

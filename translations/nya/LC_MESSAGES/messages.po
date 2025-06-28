@@ -1,0 +1,23 @@
+msgid "Welcome to Cyber Safe Zambia"
+msgstr "Takulandilani ku Cyber Safe Zambia"
+
+msgid "Phishing Detector"
+msgstr "Kupewa Phishing"
+
+msgid "Password Strength Checker"
+msgstr "Kuyesa Mphamvu ya Password"
+
+msgid "Secure Password Generator"
+msgstr "Kupanga Password Yotetezeka"
+
+msgid "Data Breach Checker"
+msgstr "Kuyesa Kubwera kwa Data"
+
+msgid "Malware Scanner"
+msgstr "Kuyesa Malware"
+
+msgid "Feedback"
+msgstr "Feedback"
+
+msgid "Privacy Policy"
+msgstr "Mfundo Zazinsinsi"

@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Welcome to Cyber Safe Zambia"
+msgstr ""
+
+msgid "Phishing Detector"
+msgstr ""
+
+msgid "Password Strength Checker"
+msgstr ""
+
+msgid "Secure Password Generator"
+msgstr ""
+
+msgid "Data Breach Checker"
+msgstr ""
+
+msgid "Malware Scanner"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""

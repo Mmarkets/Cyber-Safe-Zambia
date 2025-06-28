@@ -1,0 +1,23 @@
+msgid "Welcome to Cyber Safe Zambia"
+msgstr "Welcome to Cyber Safe Zambia"
+
+msgid "Phishing Detector"
+msgstr "Phishing Detector"
+
+msgid "Password Strength Checker"
+msgstr "Password Strength Checker"
+
+msgid "Secure Password Generator"
+msgstr "Secure Password Generator"
+
+msgid "Data Breach Checker"
+msgstr "Data Breach Checker"
+
+msgid "Malware Scanner"
+msgstr "Malware Scanner"
+
+msgid "Feedback"
+msgstr "Feedback"
+
+msgid "Privacy Policy"
+msgstr "Privacy Policy"

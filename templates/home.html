@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+   {% block title %}{{ gettext('Cyber Safe Zambia') }}{% endblock %}
+   {% block content %}
+   <div class="container mt-5">
+       <section class="hero text-center">
+           <h1 class="hero-title animated-words">{{ gettext('Welcome to Cyber Safe Zambia') }}</h1>
+           <p class="hero-subtitle">{{ gettext('Your trusted platform for cybersecurity tools and education') }}</p>
+           <img id="hero-icon" src="{{ url_for('static', filename='icons/phishing.svg') }}" alt="{{ gettext('Hero Icon') }}" class="mt-3" style="width: 60px;">
+       </section>
+       <section class="stats mt-5">
+           <h2 class="text-center">{{ gettext('Platform Statistics') }}</h2>
+           <div class="row justify-content-center mt-4">
+               <div class="col-md-8">
+                   <canvas id="homeChart" aria-label="{{ gettext('Platform usage statistics') }}" role="img"></canvas>
+               </div>
+           </div>
+       </section>
+       <section class="tools mt-5">
+           <h2 class="text-center">{{ gettext('Our Tools') }}</h2>
+           <div class="row g-4">
+               <div class="col-md-4">
+                   <div class="card tool-card">
+                       <div class="card-body">
+                           <img src="{{ url_for('static', filename='icons/phishing.svg') }}" alt="{{ gettext('Phishing Icon') }}" class="mb-3" style="width: 40px;">
+                           <h5 class="card-title">{{ gettext('Phishing Detector') }}</h5>
+                           <p class="card-text">{{ gettext('Check if a URL or email is a phishing attempt.') }}</p>
+                           <a href="{{ url_for('phishing.phishing') }}" class="btn btn-primary">{{ gettext('Use Tool') }}</a>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-4">
+                   <div class="card tool-card">
+                       <div class="card-body">
+                           <img src="{{ url_for('static', filename='icons/password.svg') }}" alt="{{ gettext('Password Icon') }}" class="mb-3" style="width: 40px;">
+                           <h5 class="card-title">{{ gettext('Password Strength Checker') }}</h5>
+                           <p class="card-text">{{ gettext('Evaluate your password’s security.') }}</p>
+                           <a href="{{ url_for('password_strength.password_strength') }}" class="btn btn-primary">{{ gettext('Use Tool') }}</a>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-4">
+                   <div class="card tool-card">
+                       <div class="card-body">
+                           <i class="fas fa-key mb-3" style="font-size: 40px; color: var(--green);"></i>
+                           <h5 class="card-title">{{ gettext('Secure Password Generator') }}</h5>
+                           <p class="card-text">{{ gettext('Create a strong, random password.') }}</p>
+                           <a href="{{ url_for('password_generator.password_generator') }}" class="btn btn-primary">{{ gettext('Use Tool') }}</a>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-4">
+                   <div class="card tool-card">
+                       <div class="card-body">
+                           <i class="fas fa-database mb-3" style="font-size: 40px; color: var(--red);"></i>
+                           <h5 class="card-title">{{ gettext('Data Breach Checker') }}</h5>
+                           <p class="card-text">{{ gettext('See if your email has been breached.') }}</p>
+                           <a href="{{ url_for('breach_checker.breach_checker') }}" class="btn btn-primary">{{ gettext('Use Tool') }}</a>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-4">
+                   <div class="card tool-card">
+                       <div class="card-body">
+                           <img src="{{ url_for('static', filename='icons/malware.svg') }}" alt="{{ gettext('Malware Icon') }}" class="mb-3" style="width: 40px;">
+                           <h5 class="card-title">{{ gettext('Malware Scanner') }}</h5>
+                           <p class="card-text">{{ gettext('Scan files for malware.') }}</p>
+                           <a href="{{ url_for('malware_scanner.malware_scanner') }}" class="btn btn-primary">{{ gettext('Use Tool') }}</a>
+                       </div>
+                   </div>
+               </div>
+               <div class="col-md-4">
+                   <div class="card tool-card">
+                       <div class="card-body">
+                           <i class="fas fa-question-circle mb-3" style="font-size: 40px; color: var(--orange);"></i>
+                           <h5 class="card-title">{{ gettext('Quiz') }}</h5>
+                           <p class="card-text">{{ gettext('Test your cybersecurity knowledge.') }}</p>
+                           <a href="{{ url_for('quiz.quiz') }}" class="btn btn-primary">{{ gettext('Take Quiz') }}</a>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </section>
+   </div>
+   {% endblock %}

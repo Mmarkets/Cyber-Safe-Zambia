@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+  "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg width="24" height="24">
+<g style="fill:black;fill-opacity:1;stroke:none;stroke-width:1;stroke-opacity:0;fill-rule:nonzero;fill:#EF7D00;">
+<g style="">
+  <path d="M12 2a2 2 0 0 1 2 2v2h3a1 1 0 0 1 1 1v2h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2v2a1 1 0 0 1-1 1h-3v2a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2H6a1 1 0 0 1-1-1v-2H3a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h2V7a1 1 0 0 1 1-1h3V4a2 2 0 0 1 2-2z"/>
+</g>
+</g>
+</svg>

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+   {% block title %}{{ gettext('Admin User Management') }}{% endblock %}
+   {% block content %}
+   <div class="container-fluid mt-4">
+       <h1 class="text-center mb-4 orbitron">{{ gettext('User Management') }}</h1>
+       {% if current_user.is_admin %}
+       <div class="card auth-card mb-4">
+           <div class="card-body">
+               <h5 class="card-title">{{ gettext('Manage Users') }}</h5>
+               <table id="userTable" class="table table-striped" style="width:100%">
+                   <thead>
+                       <tr>
+                           <th>{{ gettext('ID') }}</th>
+                           <th>{{ gettext('Username') }}</th>
+                           <th>{{ gettext('Email') }}</th>
+                           <th>{{ gettext('Admin') }}</th>
+                           <th>{{ gettext('Banned') }}</th>
+                           <th>{{ gettext('Actions') }}</th>
+                       </tr>
+                   </thead>
+                   <tbody></tbody>
+               </table>
+           </div>
+       </div>
+       {% else %}
+       <div class="alert-cyber alert alert-danger">
+           {{ gettext('Access denied: Admin privileges required.') }}
+       </div>
+       {% endif %}
+   </div>
+   <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/datatables.net@2/js/dataTables.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/datatables.net-bs5@2/js/dataTables.bootstrap5.min.js"></script>
+   <script>
+   let csrfToken = '';
+   $.get('/api/csrf-token', function(data) {
+       csrfToken = data.csrf_token;
+   });
+
+   const userTable = $('#userTable').DataTable({
+       ajax: '/api/users',
+       columns: [
+           { data: 'id' },
+           { data: 'username' },
+           { data: 'email' },
+           {
+               data: 'is_admin',
+               render: (data) => data ? '<span class="badge bg-success">{{ gettext("Yes") }}</span>' : '<span class="badge bg-secondary">{{ gettext("No") }}</span>'
+           },
+           {
+               data: 'banned',
+               render: (data) => data ? '<span class="badge bg-danger">{{ gettext("Yes") }}</span>' : '<span class="badge bg-success">{{ gettext("No") }}</span>'
+           },
+           {
+               data: null,
+               render: (data, type, row) => {
+                   let actions = '';
+                   if (row.banned) {
+                       actions += `<button class="btn btn-sm btn-success unban-btn" data-id="${row.id}">{{ gettext('Unban') }}</button>`;
+                   } else {
+                       actions += `<button class="btn btn-sm btn-danger ban-btn" data-id="${row.id}">{{ gettext('Ban') }}</button>`;
+                   }
+                   actions += ` <button class="btn btn-sm btn-primary role-btn" data-id="${row.id}" data-is-admin="${row.is_admin}">{{ gettext('Toggle Admin') }}</button>`;
+                   return actions;
+               }
+           }
+       ],
+       order: [[1, 'asc']],
+       responsive: true
+   });
+
+   $(document).on('click', '.ban-btn', function() {
+       const userId = $(this).data('id');
+       $.ajax({
+           url: `/admin/user/${userId}/ban`,
+           type: 'POST',
+           headers: { 'X-CSRFToken': csrfToken },
+           success: (response) => {
+               userTable.ajax.reload();
+               alert(response.message);
+           },
+           error: (xhr) => {
+               alert('Error: ' + xhr.responseJSON.message);
+           }
+       });
+   });
+
+   $(document).on('click', '.unban-btn', function() {
+       const userId = $(this).data('id');
+       $.ajax({
+           url: `/admin/user/${userId}/unban`,
+           type: 'POST',
+           headers: { 'X-CSRFToken': csrfToken },
+           success: (response) => {
+               userTable.ajax.reload();
+               alert(response.message);
+           },
+           error: (xhr) => {
+               alert('Error: ' + xhr.responseJSON.message);
+           }
+       });
+   });
+
+   $(document).on('click', '.role-btn', function() {
+       const userId = $(this).data('id');
+       const isAdmin = $(this).data('is-admin');
+       $.ajax({
+           url: `/admin/user/${userId}/role`,
+           type: 'POST',
+           headers: { 'X-CSRFToken': csrfToken },
+           contentType: 'application/json',
+           data: JSON.stringify({ is_admin: !isAdmin }),
+           success: (response) => {
+               userTable.ajax.reload();
+               alert(response.message);
+           },
+           error: (xhr) => {
+               alert('Error: ' + xhr.responseJSON.message);
+           }
+       });
+   });
+   </script>
+   {% endblock %}

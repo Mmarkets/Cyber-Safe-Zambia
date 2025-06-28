@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Feedback - Cyber Safe Zambia{% endblock %}
+{% block content %}
+<h1>Feedback</h1>
+<p>Your feedback helps us improve Cyber Safe Zambia. Please share your thoughts.</p>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.feedback.label(class="form-label") }}
+            {{ form.feedback(class="form-control", rows=5) }}
+        </div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+    {% endblock %}
+     

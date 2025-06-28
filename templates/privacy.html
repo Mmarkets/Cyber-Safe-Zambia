@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}{{ gettext('Privacy Policy') }} - {{ gettext('Cyber Safe Zambia') }}{% endblock %}
+{% block content %}
+<h1>{{ gettext('Privacy Policy') }}</h1>
+<p>{{ gettext('Cyber Safe Zambia does not store any user data, including passwords, emails, or files. All inputs are processed securely and discarded after use.') }}</p>
+<p>{{ gettext('We use third-party APIs (PhishTank, Have I Been Pwned, VirusTotal) with strict privacy measures, such as hashing emails for breach checks.') }}</p>
+{% endblock %}
